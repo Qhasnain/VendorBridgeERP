@@ -1,0 +1,173 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id           Int           @id @default(autoincrement())
+  name         String
+  email        String        @unique
+  passwordHash String
+  role         String        // ADMIN, PROCUREMENT_OFFICER, VENDOR, MANAGER
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  vendors      Vendor?
+  rfqs         Rfq[]
+  approvals    Approval[]
+  pos          PurchaseOrder[]
+  logs         ActivityLog[]
+}
+
+model Vendor {
+  id            Int            @id @default(autoincrement())
+  userId        Int?           @unique
+  user          User?          @relation(fields: [userId], references: [id], onDelete: SetNull)
+  vendorId      String         @unique // e.g., VEND-000001
+  companyName   String
+  category      String
+  gstNumber     String         @unique
+  panNumber     String         @unique
+  contactPerson String
+  email         String         @unique
+  phone         String
+  address       String
+  status        String         @default("PENDING") // PENDING, APPROVED, REJECTED
+  rating        Float          @default(0.0)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  rfqAssignments RfqVendor[]
+  quotations    Quotation[]
+  pos           PurchaseOrder[]
+}
+
+model Rfq {
+  id             Int            @id @default(autoincrement())
+  rfqNumber      String         @unique // e.g., RFQ-YYYY-000001
+  title          String
+  description    String
+  productDetails String         // JSON String: list of items {name, quantity, unit}
+  budget         Float
+  deadline       DateTime
+  status         String         @default("DRAFT") // DRAFT, SUBMITTED, UNDER_REVIEW, APPROVED, PO_GENERATED, INVOICE_GENERATED
+  createdById    Int
+  createdBy      User           @relation(fields: [createdById], references: [id])
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  assignedVendors RfqVendor[]
+  quotations     Quotation[]
+  approvals      Approval[]
+  pos            PurchaseOrder[]
+}
+
+model RfqVendor {
+  rfqId    Int
+  rfq      Rfq    @relation(fields: [rfqId], references: [id], onDelete: Cascade)
+  vendorId Int
+  vendor   Vendor @relation(fields: [vendorId], references: [id], onDelete: Cascade)
+
+  @@id([rfqId, vendorId])
+}
+
+model Quotation {
+  id               Int            @id @default(autoincrement())
+  rfqId            Int
+  rfq              Rfq            @relation(fields: [rfqId], references: [id], onDelete: Cascade)
+  vendorId         Int
+  vendor           Vendor         @relation(fields: [vendorId], references: [id], onDelete: Cascade)
+  price            Float
+  taxes            Float
+  deliveryTimeline Int            // in days
+  notes            String?
+  status           String         @default("SUBMITTED") // SUBMITTED, UNDER_REVIEW, ACCEPTED, REJECTED
+  attachments      String?        // JSON String array of files
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+  pos              PurchaseOrder[]
+
+  @@unique([rfqId, vendorId])
+}
+
+model Approval {
+  id          Int      @id @default(autoincrement())
+  rfqId       Int
+  rfq         Rfq      @relation(fields: [rfqId], references: [id], onDelete: Cascade)
+  status      String   // APPROVED, REJECTED
+  remarks     String
+  approverId  Int
+  approver    User     @relation(fields: [approverId], references: [id])
+  createdAt   DateTime @default(now())
+}
+
+model PurchaseOrder {
+  id             Int         @id @default(autoincrement())
+  poNumber       String      @unique // e.g., PO-YYYY-000001
+  rfqId          Int
+  rfq            Rfq         @relation(fields: [rfqId], references: [id])
+  vendorId       Int
+  vendor         Vendor      @relation(fields: [vendorId], references: [id])
+  approvedQuoteId Int
+  approvedQuote  Quotation   @relation(fields: [approvedQuoteId], references: [id])
+  totalAmount    Float
+  tax            Float
+  status         String      @default("SENT") // SENT, ACCEPTED, COMPLETED, CANCELLED
+  createdById    Int
+  createdBy      User        @relation(fields: [createdById], references: [id])
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+  invoices       Invoice[]
+}
+
+model Invoice {
+  id              Int           @id @default(autoincrement())
+  invoiceNumber   String        @unique // e.g., INV-YYYY-000001
+  purchaseOrderId Int
+  purchaseOrder   PurchaseOrder @relation(fields: [purchaseOrderId], references: [id])
+  totalAmount     Float
+  taxAmount       Float
+  gstBreakdown    String        // JSON String: {cgst, sgst, igst}
+  status          String        @default("PENDING") // PENDING, PAID, OVERDUE
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  emails          EmailLog[]
+
+  @@index([status])
+}
+
+model EmailLog {
+  id        Int      @id @default(autoincrement())
+  invoiceId Int?
+  invoice   Invoice? @relation(fields: [invoiceId], references: [id], onDelete: SetNull)
+  to        String
+  subject   String
+  body      String
+  status    String   // SENT, FAILED
+  error     String?
+  attempts  Int      @default(1)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status])
+}
+
+model Notification {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  message   String
+  type      String   // RFQ_ASSIGNED, QUOTATION_SUBMITTED, APPROVAL_PENDING, RFQ_APPROVED, INVOICE_GENERATED
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model ActivityLog {
+  id        Int      @id @default(autoincrement())
+  userId    Int?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  action    String   // LOGIN, VENDOR_CREATION, RFQ_CREATION, QUOTATION_SUBMITTING, APPROVAL_ACTION, INVOICE_GENERATION
+  details   String
+  ipAddress String?
+  createdAt DateTime @default(now())
+}
