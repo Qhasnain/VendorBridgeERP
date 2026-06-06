@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://your-backend-api.onrender.com/api/:path*"
+      "destination": "https://vendor-bridge-erp-8pv1.vercel.app/api/:path*"
     }
   ]
 }
