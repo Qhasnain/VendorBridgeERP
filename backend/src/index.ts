@@ -38,8 +38,14 @@ app.use(express.urlencoded({ extended: true }));
 // app.use('/uploads', express.static('uploads'));
 
 // Health Check
+import { dbError } from './prisma';
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'OK', timestamp: new Date(), service: 'VendorBridge ERP Service Layer' });
+  res.json({
+    status: dbError ? 'ERROR' : 'OK',
+    dbError,
+    timestamp: new Date(),
+    service: 'VendorBridge ERP Service Layer'
+  });
 });
 
 // Main API Router
