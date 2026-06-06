@@ -52,10 +52,14 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
 });
 
 // Bootstrap
-app.listen(PORT, () => {
-  console.log(`========================================================`);
-  console.log(`   VENDORBRIDGE ERP BACKEND STARTED`);
-  console.log(`   Listening at http://localhost:${PORT}`);
-  console.log(`   Environment: Production Ready Modular API`);
-  console.log(`========================================================`);
-});
+if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`========================================================`);
+    console.log(`   VENDORBRIDGE ERP BACKEND STARTED`);
+    console.log(`   Listening at http://localhost:${PORT}`);
+    console.log(`   Environment: Production Ready Modular API`);
+    console.log(`========================================================`);
+  });
+}
+
+export default app;
