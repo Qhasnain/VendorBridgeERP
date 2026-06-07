@@ -4,11 +4,11 @@ import path from 'path';
 import prisma from '../prisma';
 
 // Create a local mail log directory for development fallback
-const MAIL_LOGS_DIR = path.join(process.cwd(), 'mail_logs');
-if (!fs.existsSync(MAIL_LOGS_DIR)) {
-  fs.mkdirSync(MAIL_LOGS_DIR);
-}
+const MAIL_LOGS_DIR = '/tmp/mail_logs';
 
+if (!fs.existsSync(MAIL_LOGS_DIR)) {
+  fs.mkdirSync(MAIL_LOGS_DIR, { recursive: true });
+}
 // SMTP Transport Config from Environment
 const SMTP_HOST = process.env.SMTP_HOST || '';
 const SMTP_PORT = parseInt(process.env.SMTP_PORT || '587');
