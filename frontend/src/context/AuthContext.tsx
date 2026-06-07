@@ -63,6 +63,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   // Helper fetch method wrapping requests with Authorization token headers automatically
+  const API_URL = (import.meta as any).env.VITE_API_URL;
   const apiFetch = async (url: string, options: RequestInit = {}) => {
     const activeToken = token || localStorage.getItem('vb_token');
     
@@ -74,14 +75,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       headers.set('Content-Type', 'application/json');
     }
 
-    const res = await fetch(url, { ...options, headers });
+    const res = await fetch(`${API_URL}${url}`, {
+  ...options,
+  headers
+});
     
     if (res.status === 401 || res.status === 403) {
       // Handle expired token refresh attempt or log out
       const refreshToken = localStorage.getItem('vb_refresh_token');
       if (refreshToken && res.status === 403) {
         try {
-          const refreshRes = await fetch('/api/auth/refresh', {
+          const refreshRes = await fetch(`${API_URL}/api/auth/refresh`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ refreshToken }),
