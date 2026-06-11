@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { KeyRound, Mail, User, Phone, MapPin, Building, FileSpreadsheet, Eye, EyeOff, Loader2 } from 'lucide-react';
+ 
+
+const API_URL = (import.meta as any).env?.VITE_API_URL;
+console.log("API_URL =", API_URL);
 
 export const Login: React.FC = () => {
   const { login } = useAuth();
