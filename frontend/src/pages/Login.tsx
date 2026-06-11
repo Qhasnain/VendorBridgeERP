@@ -38,7 +38,7 @@ export const Login: React.FC = () => {
 
     try {
       if (mode === 'LOGIN') {
-        const res = await fetch('/api/auth/login', {
+        const res = await fetch(`${API_URL}/api/auth/login`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email, password }),
@@ -59,7 +59,7 @@ export const Login: React.FC = () => {
           payload.address = address;
         }
 
-        const res = await fetch('/api/auth/signup', {
+        const res = await fetch(`${API_URL}/api/auth/signup`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload),
@@ -70,7 +70,7 @@ export const Login: React.FC = () => {
         login(data.accessToken, data.refreshToken, data.user);
         navigate('/dashboard');
       } else if (mode === 'FORGOT') {
-        const res = await fetch('/api/auth/reset-password', {
+        const res = await fetch(`${API_URL}/api/auth/reset-password`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email, newPassword: password }),
