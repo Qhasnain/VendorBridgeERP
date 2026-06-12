@@ -300,7 +300,7 @@ export const Invoices: React.FC = () => {
                 </div>
 
                 {/* Vendor & Client details */}
-                <div className="grid grid-cols-2 gap-8 py-8 border-b border-gray-150 dark:border-slate-800 text-xs">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 py-8 border-b border-gray-150 dark:border-slate-800 text-xs">
                   <div className="space-y-1.5">
                     <h4 className="font-extrabold uppercase tracking-wider text-gray-400 dark:text-slate-500 text-[10px]">Supplier Details</h4>
                     <p className="font-bold text-accent dark:text-white">{selectedInvoice.purchaseOrder.vendor.companyName}</p>

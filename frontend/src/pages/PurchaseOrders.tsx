@@ -242,7 +242,7 @@ export const PurchaseOrders: React.FC = () => {
             </div>
 
             {/* Vendor & Client details */}
-            <div className="grid grid-cols-2 gap-8 py-8 border-b border-gray-150 dark:border-slate-800 text-xs">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 py-8 border-b border-gray-150 dark:border-slate-800 text-xs">
               <div className="space-y-1.5">
                 <h4 className="font-extrabold uppercase tracking-wider text-gray-400 text-[10px]">Vendor Partner</h4>
                 <p className="font-bold text-accent dark:text-white">{selectedPo.vendor.companyName}</p>

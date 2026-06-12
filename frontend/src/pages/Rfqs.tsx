@@ -691,7 +691,7 @@ export const Rfqs: React.FC = () => {
               <div className="bg-white dark:bg-slate-900 border border-gray-100 dark:border-slate-800 rounded-2xl p-6 shadow-premium space-y-4">
                 <h3 className="text-xs font-extrabold uppercase tracking-wider text-accent dark:text-white">Tender Configuration</h3>
                 
-                <div className="grid grid-cols-2 gap-4 text-xs">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
                   <div>
                     <span className="text-gray-400 font-medium">Budget Cap</span>
                     <p className="font-bold text-accent dark:text-white mt-0.5">

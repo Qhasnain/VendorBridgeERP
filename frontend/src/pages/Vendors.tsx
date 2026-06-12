@@ -254,7 +254,7 @@ export const Vendors: React.FC = () => {
             )}
 
             <form onSubmit={handleCreateVendorSubmit} className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1">Company Name</label>
                   <input
@@ -279,7 +279,7 @@ export const Vendors: React.FC = () => {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1">GST Number</label>
                   <input
@@ -306,7 +306,7 @@ export const Vendors: React.FC = () => {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1">Contact Person</label>
                   <input
@@ -331,7 +331,7 @@ export const Vendors: React.FC = () => {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1">Contact Phone</label>
                   <input

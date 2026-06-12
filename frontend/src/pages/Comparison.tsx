@@ -147,7 +147,7 @@ export const Comparison: React.FC = () => {
           {/* CRITERIA CRUCIBLE FORMULAS HELP */}
           <div className="bg-amber-500/5 dark:bg-primary/5 border border-primary/20 dark:border-primary/10 rounded-2xl p-4 text-xs text-gray-600 dark:text-gray-400">
             <span className="font-extrabold text-primary uppercase tracking-widest block mb-1.5 text-[10px]">Criteria Scoring Rules:</span>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
               <div>
                 <strong className="text-accent dark:text-white">Price (40%):</strong> Lower price = higher score
               </div>

@@ -67,7 +67,7 @@ export const EnterpriseLayout: React.FC<{ children: React.ReactNode }> = ({ chil
   const filteredItems = sidebarItems.filter(item => user && item.roles.includes(user.role));
 
   return (
-    <div className="min-h-screen flex bg-gray-50 text-gray-900 dark:bg-slate-950 dark:text-gray-100 transition-colors duration-200">
+    <div className="min-h-screen flex bg-gray-50 text-gray-900 dark:bg-slate-950 dark:text-gray-100 transition-colors duration-200 overflow-x-hidden">
       {/* SIDEBAR FOR DESKTOP */}
       <aside className={`fixed inset-y-0 left-0 z-40 w-64 bg-accent-dark text-white flex flex-col transform lg:translate-x-0 transition-transform duration-300 ease-in-out border-r border-slate-800 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
         {/* LOGO */}
@@ -138,7 +138,7 @@ export const EnterpriseLayout: React.FC<{ children: React.ReactNode }> = ({ chil
       )}
 
       {/* MAIN CONTENT WRAPPER */}
-      <div className="flex-1 lg:pl-64 flex flex-col min-h-screen">
+      <div className="flex-1 lg:pl-64 flex flex-col min-h-screen w-full max-w-full">
         {/* HEADER */}
         <header className="h-16 sticky top-0 z-20 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-gray-200 dark:border-slate-800 px-6 flex items-center justify-between">
           <div className="flex items-center gap-4">
@@ -290,7 +290,7 @@ export const EnterpriseLayout: React.FC<{ children: React.ReactNode }> = ({ chil
         </header>
 
         {/* PAGE BODY */}
-        <main className="flex-1 p-6 lg:p-8 overflow-y-auto">
+        <main className="flex-1 p-4 sm:p-6 lg:p-8 overflow-x-hidden overflow-y-auto w-full max-w-full">
           {children}
         </main>
       </div>
