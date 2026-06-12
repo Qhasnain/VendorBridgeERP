@@ -58,8 +58,11 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
 });
 
 // Bootstrap
+import { seedSuperAdmin } from './utils/seeder';
+
 if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
-  app.listen(PORT, () => {
+  app.listen(PORT, async () => {
+    await seedSuperAdmin();
     console.log(`========================================================`);
     console.log(`   VENDORBRIDGE ERP BACKEND STARTED`);
     console.log(`   Listening at http://localhost:${PORT}`);

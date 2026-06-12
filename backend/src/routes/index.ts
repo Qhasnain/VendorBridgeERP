@@ -11,6 +11,7 @@ import * as invoiceController from '../controllers/invoiceController';
 import * as notificationController from '../controllers/notificationController';
 import * as adminController from '../controllers/adminController';
 import * as aiController from '../controllers/aiController';
+import * as superAdminController from '../controllers/superAdminController';
 
 const router = Router();
 
@@ -31,19 +32,19 @@ router.get('/vendors/:id', authenticateToken, vendorController.getVendorById);
 router.post(
   '/vendors',
   authenticateToken,
-  requireRoles('ADMIN', 'PROCUREMENT_OFFICER'),
+  requireRoles('SUPER_ADMIN', 'ADMIN', 'PROCUREMENT_OFFICER'),
   vendorController.createVendor
 );
 router.put(
   '/vendors/:id',
   authenticateToken,
-  requireRoles('ADMIN', 'PROCUREMENT_OFFICER'),
+  requireRoles('SUPER_ADMIN', 'ADMIN', 'PROCUREMENT_OFFICER'),
   vendorController.updateVendor
 );
 router.delete(
   '/vendors/:id',
   authenticateToken,
-  requireRoles('ADMIN'),
+  requireRoles('SUPER_ADMIN', 'ADMIN'),
   vendorController.deleteVendor
 );
 
@@ -55,19 +56,19 @@ router.get('/rfqs/:id', authenticateToken, rfqController.getRfqById);
 router.post(
   '/rfqs',
   authenticateToken,
-  requireRoles('ADMIN', 'PROCUREMENT_OFFICER'),
+  requireRoles('SUPER_ADMIN', 'ADMIN', 'PROCUREMENT_OFFICER'),
   rfqController.createRfq
 );
 router.put(
   '/rfqs/:id',
   authenticateToken,
-  requireRoles('ADMIN', 'PROCUREMENT_OFFICER', 'VENDOR'), // Vendor updates when submitting quotations
+  requireRoles('SUPER_ADMIN', 'ADMIN', 'PROCUREMENT_OFFICER', 'VENDOR'), // Vendor updates when submitting quotations
   rfqController.updateRfq
 );
 router.delete(
   '/rfqs/:id',
   authenticateToken,
-  requireRoles('ADMIN', 'PROCUREMENT_OFFICER'),
+  requireRoles('SUPER_ADMIN', 'ADMIN', 'PROCUREMENT_OFFICER'),
   rfqController.deleteRfq
 );
 
@@ -83,13 +84,13 @@ router.post(
 router.get(
   '/quotations/rfq/:rfqId',
   authenticateToken,
-  requireRoles('ADMIN', 'PROCUREMENT_OFFICER', 'MANAGER'),
+  requireRoles('SUPER_ADMIN', 'ADMIN', 'PROCUREMENT_OFFICER', 'MANAGER'),
   quotationController.getQuotationsByRfq
 );
 router.get(
   '/quotations/compare/:rfqId',
   authenticateToken,
-  requireRoles('ADMIN', 'PROCUREMENT_OFFICER', 'MANAGER'),
+  requireRoles('SUPER_ADMIN', 'ADMIN', 'PROCUREMENT_OFFICER', 'MANAGER'),
   quotationController.getComparisonMatrix
 );
 
@@ -99,13 +100,13 @@ router.get(
 router.post(
   '/approvals/review',
   authenticateToken,
-  requireRoles('ADMIN', 'PROCUREMENT_OFFICER'),
+  requireRoles('SUPER_ADMIN', 'ADMIN', 'PROCUREMENT_OFFICER'),
   approvalController.submitForReview
 );
 router.post(
   '/approvals/process',
   authenticateToken,
-  requireRoles('ADMIN', 'MANAGER'),
+  requireRoles('SUPER_ADMIN', 'ADMIN', 'MANAGER'),
   approvalController.processApproval
 );
 
@@ -117,13 +118,13 @@ router.get('/pos/:id', authenticateToken, poController.getPoById);
 router.post(
   '/pos',
   authenticateToken,
-  requireRoles('ADMIN', 'PROCUREMENT_OFFICER'),
+  requireRoles('SUPER_ADMIN', 'ADMIN', 'PROCUREMENT_OFFICER'),
   poController.createPurchaseOrder
 );
 router.put(
   '/pos/:id',
   authenticateToken,
-  requireRoles('ADMIN', 'PROCUREMENT_OFFICER', 'VENDOR'),
+  requireRoles('SUPER_ADMIN', 'ADMIN', 'PROCUREMENT_OFFICER', 'VENDOR'),
   poController.updatePoStatus
 );
 
@@ -135,19 +136,19 @@ router.get('/invoices/:id', authenticateToken, invoiceController.getInvoiceById)
 router.post(
   '/invoices',
   authenticateToken,
-  requireRoles('ADMIN', 'PROCUREMENT_OFFICER', 'VENDOR'),
+  requireRoles('SUPER_ADMIN', 'ADMIN', 'PROCUREMENT_OFFICER', 'VENDOR'),
   invoiceController.createInvoice
 );
 router.post(
   '/invoices/:id/pay',
   authenticateToken,
-  requireRoles('ADMIN', 'PROCUREMENT_OFFICER'),
+  requireRoles('SUPER_ADMIN', 'ADMIN', 'PROCUREMENT_OFFICER'),
   invoiceController.payInvoice
 );
 router.post(
   '/invoices/:id/send',
   authenticateToken,
-  requireRoles('ADMIN', 'PROCUREMENT_OFFICER', 'VENDOR'),
+  requireRoles('SUPER_ADMIN', 'ADMIN', 'PROCUREMENT_OFFICER', 'VENDOR'),
   invoiceController.sendInvoice
 );
 
@@ -179,20 +180,42 @@ router.delete('/notifications/:id', authenticateToken, notificationController.cl
 router.get(
   '/admin/metrics',
   authenticateToken,
-  requireRoles('ADMIN', 'PROCUREMENT_OFFICER', 'MANAGER'),
+  requireRoles('SUPER_ADMIN', 'ADMIN', 'PROCUREMENT_OFFICER', 'MANAGER'),
   adminController.getDashboardMetrics
 );
 router.get(
   '/admin/logs',
   authenticateToken,
-  requireRoles('ADMIN'),
+  requireRoles('SUPER_ADMIN', 'ADMIN'),
   adminController.getAuditLogs
 );
 router.get(
   '/admin/users',
   authenticateToken,
-  requireRoles('ADMIN'),
+  requireRoles('SUPER_ADMIN', 'ADMIN'),
   adminController.getAllUsers
+);
+
+// ==========================================
+// SUPER ADMIN MODULE
+// ==========================================
+router.post(
+  '/super-admin/users',
+  authenticateToken,
+  requireRoles('SUPER_ADMIN'),
+  superAdminController.createUser
+);
+router.put(
+  '/super-admin/users/:id',
+  authenticateToken,
+  requireRoles('SUPER_ADMIN'),
+  superAdminController.updateUser
+);
+router.delete(
+  '/super-admin/users/:id',
+  authenticateToken,
+  requireRoles('SUPER_ADMIN'),
+  superAdminController.deleteUser
 );
 
 export default router;

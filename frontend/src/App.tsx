@@ -16,6 +16,7 @@ const PurchaseOrders = lazy(() => import('./pages/PurchaseOrders').then(m => ({ 
 const Invoices = lazy(() => import('./pages/Invoices').then(m => ({ default: m.Invoices })));
 const AuditLogs = lazy(() => import('./pages/AuditLogs').then(m => ({ default: m.AuditLogs })));
 const Reports = lazy(() => import('./pages/Reports').then(m => ({ default: m.Reports })));
+const SuperAdmin = lazy(() => import('./pages/SuperAdmin').then(m => ({ default: m.SuperAdmin })));
 
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { isAuthenticated, loading } = useAuth();
@@ -58,6 +59,7 @@ const AppRoutes: React.FC = () => {
         <Route path="/invoices" element={<ProtectedRoute><Invoices /></ProtectedRoute>} />
         <Route path="/audit-logs" element={<ProtectedRoute><AuditLogs /></ProtectedRoute>} />
         <Route path="/reports" element={<ProtectedRoute><Reports /></ProtectedRoute>} />
+        <Route path="/super-admin" element={<ProtectedRoute><SuperAdmin /></ProtectedRoute>} />
 
         {/* Default Fallbacks */}
         <Route path="/" element={<Navigate to="/dashboard" replace />} />

@@ -21,7 +21,8 @@ import {
   ChevronDown,
   User,
   ShieldAlert,
-  ClipboardList
+  ClipboardList,
+  Crown
 } from 'lucide-react';
 
 interface SidebarItem {
@@ -32,15 +33,16 @@ interface SidebarItem {
 }
 
 const sidebarItems: SidebarItem[] = [
-  { title: 'Dashboard', path: '/dashboard', icon: LayoutDashboard, roles: ['ADMIN', 'PROCUREMENT_OFFICER', 'VENDOR', 'MANAGER'] },
-  { title: 'Vendors', path: '/vendors', icon: Users, roles: ['ADMIN', 'PROCUREMENT_OFFICER'] },
-  { title: 'RFQs & Tenders', path: '/rfqs', icon: FileText, roles: ['ADMIN', 'PROCUREMENT_OFFICER', 'VENDOR', 'MANAGER'] },
-  { title: 'AI Comparison', path: '/comparison', icon: FileSpreadsheet, roles: ['ADMIN', 'PROCUREMENT_OFFICER', 'MANAGER'] },
-  { title: 'Approvals', path: '/approvals', icon: CheckSquare, roles: ['ADMIN', 'MANAGER'] },
-  { title: 'Purchase Orders', path: '/pos', icon: ShoppingCart, roles: ['ADMIN', 'PROCUREMENT_OFFICER', 'VENDOR', 'MANAGER'] },
-  { title: 'Invoices', path: '/invoices', icon: Receipt, roles: ['ADMIN', 'PROCUREMENT_OFFICER', 'VENDOR', 'MANAGER'] },
-  { title: 'Audit Logs', path: '/audit-logs', icon: ShieldAlert, roles: ['ADMIN'] },
-  { title: 'Reports & KPI', path: '/reports', icon: ClipboardList, roles: ['ADMIN', 'PROCUREMENT_OFFICER', 'MANAGER'] },
+  { title: 'Super Admin', path: '/super-admin', icon: Crown, roles: ['SUPER_ADMIN'] },
+  { title: 'Dashboard', path: '/dashboard', icon: LayoutDashboard, roles: ['SUPER_ADMIN', 'ADMIN', 'PROCUREMENT_OFFICER', 'VENDOR', 'MANAGER'] },
+  { title: 'Vendors', path: '/vendors', icon: Users, roles: ['SUPER_ADMIN', 'ADMIN', 'PROCUREMENT_OFFICER'] },
+  { title: 'RFQs & Tenders', path: '/rfqs', icon: FileText, roles: ['SUPER_ADMIN', 'ADMIN', 'PROCUREMENT_OFFICER', 'VENDOR', 'MANAGER'] },
+  { title: 'AI Comparison', path: '/comparison', icon: FileSpreadsheet, roles: ['SUPER_ADMIN', 'ADMIN', 'PROCUREMENT_OFFICER', 'MANAGER'] },
+  { title: 'Approvals', path: '/approvals', icon: CheckSquare, roles: ['SUPER_ADMIN', 'ADMIN', 'MANAGER'] },
+  { title: 'Purchase Orders', path: '/pos', icon: ShoppingCart, roles: ['SUPER_ADMIN', 'ADMIN', 'PROCUREMENT_OFFICER', 'VENDOR', 'MANAGER'] },
+  { title: 'Invoices', path: '/invoices', icon: Receipt, roles: ['SUPER_ADMIN', 'ADMIN', 'PROCUREMENT_OFFICER', 'VENDOR', 'MANAGER'] },
+  { title: 'Audit Logs', path: '/audit-logs', icon: ShieldAlert, roles: ['SUPER_ADMIN', 'ADMIN'] },
+  { title: 'Reports & KPI', path: '/reports', icon: ClipboardList, roles: ['SUPER_ADMIN', 'ADMIN', 'PROCUREMENT_OFFICER', 'MANAGER'] },
 ];
 
 export const EnterpriseLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {

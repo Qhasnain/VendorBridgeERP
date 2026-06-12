@@ -5,7 +5,7 @@ export interface UserProfile {
   id: number;
   name: string;
   email: string;
-  role: 'ADMIN' | 'PROCUREMENT_OFFICER' | 'VENDOR' | 'MANAGER';
+  role: 'SUPER_ADMIN' | 'ADMIN' | 'PROCUREMENT_OFFICER' | 'VENDOR' | 'MANAGER';
   vendorId: number | null;
 }
 
@@ -15,6 +15,7 @@ interface AuthContextType {
   login: (accessToken: string, refreshToken: string, user: UserProfile) => void;
   logout: () => void;
   isAuthenticated: boolean;
+  isSuperAdmin: boolean;
   isAdmin: boolean;
   isOfficer: boolean;
   isVendor: boolean;
@@ -128,6 +129,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         login,
         logout,
         isAuthenticated: !!user,
+        isSuperAdmin: role === 'SUPER_ADMIN',
         isAdmin: role === 'ADMIN',
         isOfficer: role === 'PROCUREMENT_OFFICER',
         isVendor: role === 'VENDOR',
